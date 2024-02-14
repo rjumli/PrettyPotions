@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title inertia>STSIMS</title>
-        <meta name="description" content="STSIMS - DOST IX | KRAD">
-        <meta name="keywords"content="DOST, SEI, STSIMS, KRAD">
-        <meta name="author" content="Krad">
-        <meta property="og:title" content="STSIMS - Science and Technology Scholarship Information Management System">
-        <meta property="og:description" content="Scholarship Management System">
+        <title inertia>Pretty Potions</title>
+        <meta name="description" content="Pretty Potions">
+        <meta name="keywords"content="Pretty Potions">
+        <meta name="author" content="Pretty Potions">
+        <meta property="og:title" content="Pretty Potions">
+        <meta property="og:description" content="Pretty Potions">
         <meta property="og:image" content="URL to the template's logo or featured image">
         <meta property="og:url" content="URL to the template's webpage">
         <meta name="twitter:card" content="summary_large_image">
