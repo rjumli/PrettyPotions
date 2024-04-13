@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="row">
+    <div class="row" v-if="appointments.length == 0 || neww == true">
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
@@ -82,21 +82,119 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-body" style="height: calc(100vh - 205px); overflow: hidden;">
-                            {{cart}}
+                        <div class="card-body" style="height: calc(100vh - 205px); overflow: auto;">
+                            <div class="alert alert-success material-shadow" role="alert">
+                                Ongoing Appointments : {{appointments.length}} <b style="cursor: pointer;" class="float-end text-danger" @click="neww = false">VIEW ALL</b>
+                            </div>
+                            <hr class="text-muted"/>
+                            <div class="table-responsive">
+                                <table class="table table-nowrap align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr class="fs-11">
+                                            <th class="text-center" style="width: 3%;">#</th>
+                                            <th style="width: 30%;">Service</th>
+                                            <th style="width: 15%;" class="text-end">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(list,index) in cart" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
+                                            <td class="text-center">{{ index + 1 }}.</td>
+                                            <td class="fs-12">{{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> 
+                                                <!-- <h5 class="fs-13 mb-0 text-dark">{{list.service}}</h5>
+                        <p class="fs-12 text-muted mb-0">{{list.description}}</p> -->
+                                            </td>
+                                            <td class="text-end fs-12">{{formatMoney(list.price)}}</td>
+                                        </tr>
+                                        <tr class="table-light text-muted fs-12">
+                                            <td colspan="2">Subtotal : </td>
+                                            <td class="text-end">{{formatMoney(subtotal)}}</td>
+                                        </tr>
+                                        <tr class="table-light text-muted fs-12">
+                                            <td colspan="2">Discount : </td>
+                                            <td class="text-end">{{formatMoney(discount)}}</td>
+                                        </tr>
+                                        <tr class="table-light fw-semibold">
+                                            <td colspan="2">Total : </td>
+                                            <td class="text-end">{{formatMoney(subtotal)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="d-grid gap-2 mt-4" >
+                                <button @click="openConfirm()" class="btn btn-info" type="button">CONFIRM BOOKING</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row" v-else>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body" style="height: calc(100vh - 200px); overflow: hidden;">
+                    <b-row class="g-2 mb-2">
+                        <b-col md="10">
+                            <div class="search-box">
+                            <input type="text" class="form-control search" placeholder="Search Appointment"
+                                v-model="filter.keyword" />
+                            <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </b-col>
+                        <b-col md="2">
+                            <b-button variant="primary" class="w-100" @click="neww = true">New Appointment</b-button>
+                        </b-col>
+                    </b-row>
+                    <div class="table-responsive">
+                        <table class="table table-nowrap align-middle mb-0">
+                            <thead class="table-light">
+                                <tr class="fs-11">
+                                    <th style="width: 3%;">#</th>
+                                    <th style="width: 25%;">Code</th>
+                                    <th style="width: 10%;" class="text-center">Date</th>
+                                    <th style="width: 10%;" class="text-center">Total</th>
+                                    <th style="width: 15%;" class="text-center">Request Date</th>
+                                    <th style="width: 15%;" class="text-center">Status</th>
+                                    <th style="width: 10%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(list,index) in appointments" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
+                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ list.code }}</td>
+                                    <td class="text-center">{{list.date}}</td>
+                                    <td class="text-center">{{list.lists.length}}</td>
+                                    <td class="text-center">{{list.created_at}}</td>
+                                    <td class="text-center">
+                                        <span class="badge" :class="list.status.color">{{list.status.name}}</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <b-button variant="soft-info"  @click="openView(list)" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1">
+                                            <i class="ri-eye-fill align-bottom"></i>
+                                        </b-button>
+                                        <b-button @click="openEdit(list,index)" variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list">
+                                            <i class="ri-pencil-fill align-bottom"></i>
+                                        </b-button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <Confirm ref="confirm"/>
 </template>
 <script>
+import Confirm from './Modals/Confirm.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
-    props: ['categories'],
-    components: { Multiselect },
+    props: ['categories','appointments'],
+    components: { Multiselect, Confirm },
     data(){
         return {
             filter : {
@@ -104,7 +202,11 @@ export default {
                 category: null
             },
             cart: [],
-            lists: false
+            discount: 0,
+            subtotal: 0,
+            total: 0,
+            lists: false,
+            neww: false
         }
     },
     watch: {
@@ -116,10 +218,29 @@ export default {
             }
         }
     },
+    mounted() {
+        this.calculateTotalPrice();
+    },
     methods: {
         addCart(data){
-            this.cart.push(data);
-        }
+            const exst = this.cart.some(item => item.id === data.id);
+            if(!exst){
+                this.cart.push(data);
+            }else{
+                
+            }
+            this.calculateTotalPrice();
+        },
+        openConfirm(){
+            this.$refs.confirm.show(this.cart,this.subtotal,this.discount);
+        },
+        calculateTotalPrice() {
+            this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);
+        },
+        formatMoney(value) {
+            let val = (value/1).toFixed(2).replace(',', '.')
+            return '₱'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        },
     }
 }
 </script>

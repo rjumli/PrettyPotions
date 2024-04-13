@@ -188,7 +188,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Status',
                 'type' => 'n/a',
                 'color' => 'bg-warning',
-                'others' => 'n/a',
+                'others' => 'text-warning',
             ),
             19 => 
             array (
@@ -197,7 +197,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Status',
                 'type' => 'n/a',
                 'color' => 'bg-success',
-                'others' => 'n/a',
+                'others' => 'text-success',
             ),
             20 => 
             array (
@@ -206,7 +206,16 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Status',
                 'type' => 'n/a',
                 'color' => 'bg-danger',
-                'others' => 'n/a',
+                'others' => 'text-danger',
+            ),
+            21 => 
+            array (
+                'id' => 22,
+                'name' => 'Confirmed',
+                'classification' => 'Status',
+                'type' => 'n/a',
+                'color' => 'bg-info',
+                'others' => 'text-info',
             ),
         ));
         

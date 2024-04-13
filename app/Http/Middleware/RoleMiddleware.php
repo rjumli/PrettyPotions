@@ -15,13 +15,13 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-         if (\Auth::check()) {
-            $user = \Auth::user();
+        //  if (\Auth::check()) {
+        //     $user = \Auth::user();
             
-            if ($user->role == 'Client') {
-                return redirect('/home');
-            }
-        }
+        //     if ($user->role == 'Client') {
+        //         return redirect('/home');
+        //     }
+        // }
 
         return $next($request);
     }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="$page.props.role != 'Client'">
         <div class="app-menu navbar-menu" style="height: calc(100vh - 112px);">
             <div class="navbar-brand-box">
                 <Link href="/" class="logo logo-dark">

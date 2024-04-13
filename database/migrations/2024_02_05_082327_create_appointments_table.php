@@ -16,7 +16,10 @@ return new class extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->decimal('total',12,2);
+            $table->decimal('discount',12,2)->default(0);
             $table->dateTime('date');
+            $table->boolean('is_walkin')->nullable();
+            $table->boolean('is_rated')->default(0);
             $table->boolean('is_resched')->default(0);
             $table->boolean('is_seened')->default(0);
             $table->integer('status_id')->unsigned()->index();

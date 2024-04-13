@@ -15,6 +15,9 @@ class ClientController extends Controller
             case 'lists':
                 return $this->lists($request);
             break;
+            case 'pick':
+                return $this->pick($request);
+            break;
             default: 
                 return inertia('Modules/Clients/Index');
         }
@@ -92,5 +95,22 @@ class ClientController extends Controller
                 $data->save();
             }
         }
+    }
+
+    public function pick($request){
+        $keyword = $request->keyword;
+        $data = User::with('profile')
+        ->whereHas('profile',function ($query) use ($keyword) {
+            $query->where(\DB::raw('concat(firstname," ",lastname)'), 'LIKE', "%{$keyword}%")
+            ->orWhere(\DB::raw('concat(lastname," ",firstname)'), 'LIKE', "%{$keyword}%");
+        })
+        ->where('role', 'Client')
+        ->get()->map(function ($item) {
+            return [
+                'value' => $item->id,
+                'name' => $item->profile->firstname.' - '.$item->profile->lastname,
+            ];
+        });
+        return $data;
     }
 }

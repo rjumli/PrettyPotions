@@ -1,16 +1,26 @@
 <template>
-    <header id="page-topbar" style="left: 300px; right: 24px;">
+    <header id="page-topbar" :style="($page.props.role != 'Client') ? 'left: 300px; right: 24px;' : 'left: 25px; right: 23px;'">
         <div class="layout-width">
             <div class="navbar-header">
 
                 <div class="d-flex">
-                    <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
-                        <span class="hamburger-icon">
+                    <button v-if="$page.props.role != 'Client'" type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                        <span class="hamburger-icon" >
                             <span></span>
                             <span></span>
                             <span></span>
                         </span>
                     </button>
+                    <div class="navbar-brand-box">
+                        <Link href="/" class="logo logo-dark">
+                            <span class="logo-sm"><img src="/imagess/logo-sm.png" alt="" height="30" /></span>
+                            <span class="logo-lg"><img src="/imagess/logo-dark.png" alt="" height="30" /></span>
+                        </Link>
+                        <Link href="/" class="logo logo-light">
+                            <span class="logo-sm"> <img src="/imagess/logo-sm.png" alt="" height="30" /> </span>
+                            <span class="logo-lg"><img src="/imagess/logo-dark.png" alt="" height="30" /> </span>
+                        </Link>
+                    </div>
                 </div>
 
                 <div class="d-flex align-items-center">
