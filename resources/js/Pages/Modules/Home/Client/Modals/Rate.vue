@@ -29,6 +29,7 @@ export default {
     props: ['specialists','categories','users'],
     data(){
         return {
+            id: null,
             rating: null,
             comment: null,
             form: {},
@@ -36,16 +37,18 @@ export default {
         }
     },
     methods : {
-        show() {
+        show(id) {
+            this.id = id;
             this.showModal = true;
         },
         create(){
             this.form = this.$inertia.form({
+                appointment_id: this.id,
                 comment: this.comment,
                 rating: this.rating
             })
 
-            this.form.post('/ratings',{
+            this.form.post('/reviews',{
                 preserveScroll: true,
                 onSuccess: (response) => {
                     this.$emit('message',true);

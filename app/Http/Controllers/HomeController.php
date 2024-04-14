@@ -17,7 +17,7 @@ class HomeController extends Controller
             case 'Client':
                 return inertia('Modules/Home/Client/Index',[
                     'categories' => DropdownResource::collection(Dropdown::with('services')->where('classification','Category')->get()),
-                    'appointments' => Appointment::with('lists.service','lists.status','user.profile','status')->where('user_id',\Auth::user()->id)->whereIn('status_id',[19,22,23])->get()
+                    'appointments' => Appointment::with('lists.service','lists.status','user.profile','status','review')->where('user_id',\Auth::user()->id)->whereIn('status_id',[19,20,22,23])->get()
                 ]);
             break;
             case 'Staff':

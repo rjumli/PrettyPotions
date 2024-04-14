@@ -26,7 +26,7 @@ class AppointmentController extends Controller
     public function lists($request){
         $data = DefaultResource::collection(
             Appointment::query()
-            ->with('user','status','lists.service','lists.status','lists.aesthetician')
+            ->with('user.profile','status','lists.service','lists.status','lists.aesthetician','review')
             ->when($request->keyword, function ($query, $keyword) {
                 $query->where('code', 'LIKE', "%{$keyword}%");
             })

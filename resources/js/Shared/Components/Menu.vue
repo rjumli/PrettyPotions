@@ -54,7 +54,7 @@
                     </Link>
                 </li>
                 <li class="nav-item" v-if="$page.props.role != 'Client'">
-                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Dashboard') }" href="/home">
+                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Reviews') }" href="/reviews">
                         <i class='ri-star-s-fill'></i>
                         <span data-key="t-dashboards">Reviews and Ratings</span>
                     </Link>

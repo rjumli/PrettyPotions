@@ -57,20 +57,26 @@
                 </tbody>
             </table>
         </div>
+        <div v-if="selected.review" class="alert alert-info alert-dismissible material-shadow mt-3" role="alert" aria-live="polite" aria-atomic="true" show="">
+            Comment : {{selected.review.comment}} <br /><br />
+            <vue3-star-ratings :disableClick="true" :numberOfStars="5" v-model="selected.review.rating"/>
+        </div>
         <hr class="text-muted mb-n2"/>
+
         <template v-slot:footer>
             <b-button @click="hide()" variant="light" block>Cancel</b-button>
-            <b-button v-if="selected.status.name === 'Pending'" @click="save(22)" variant="primary" :disabled="form.processing" block>Mark as Confirmed</b-button>
-            <b-button v-if="selected.status.name === 'Confirmed'" @click="save(23)" variant="info" :disabled="form.processing" block>Mark as Ongoing</b-button>
-            <b-button v-if="selected.status.name === 'Ongoing'" @click="save(20)" variant="success" :disabled="form.processing" block>Mark as Completed</b-button>
+            <b-button v-if="selected.status.name === 'Pending' && client === false" @click="save(22)" variant="primary" :disabled="form.processing" block>Mark as Confirmed</b-button>
+            <b-button v-if="selected.status.name === 'Confirmed' && client === false" @click="save(23)" variant="info" :disabled="form.processing" block>Mark as Ongoing</b-button>
+            <b-button v-if="selected.status.name === 'Ongoing' && client === false" @click="save(20)" variant="success" :disabled="form.processing" block>Mark as Completed</b-button>
         </template>
     </b-modal>
 </template>
 <script>
+import vue3StarRatings from "vue3-star-ratings";
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
-    components: { Multiselect },
+    components: { Multiselect, vue3StarRatings },
     props: ['specialists','categories','users'],
     data(){
         return {
@@ -78,15 +84,22 @@ export default {
                 user: {
                     profile: {}
                 },
-                status: {}
+                status: {},
+                review: {}
             },
             form: {},
             showModal: false,
             editable: false,
+            client: false
         }
     },
     methods : {
         show(data) {
+            this.selected = data;
+            this.showModal = true;
+        },
+        view(data){
+            this.client = true;
             this.selected = data;
             this.showModal = true;
         },

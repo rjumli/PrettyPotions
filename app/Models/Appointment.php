@@ -26,6 +26,11 @@ class Appointment extends Model
         return $this->hasMany('App\Models\AppointmentService', 'appointment_id');
     } 
 
+    public function review()
+    {
+        return $this->hasOne('App\Models\Review', 'appointment_id');
+    } 
+
     public function getDateAttribute($value)
     {
         return date('M d, Y', strtotime($value));

@@ -31,12 +31,12 @@
                         <b-row class="job-list-row" id="companies-list" v-if="!lists" style="height: calc(100vh - 301px); overflow-x: hidden;">
                             <b-col xxl="4" v-for="(data, index) of categories.data" :key="index">
                                 <b-card no-body class="companiesList-card" @click="filter.category = data">
-                                    <b-card-body style="cursor: pointer;">
+                                    <b-card-body  style="cursor: pointer;">
                                         <div class="text-center">
-                                            <h5 class="mt-3 company-name">{{ data.name }}</h5>
+                                            <h5 class="mt-1 fs-13 company-name">{{ data.name }}</h5>
                                         </div>
                                         <div>
-                                            <b-button type="button" variant="soft-primary" class="w-100 viewcompany-list">{{data.services.length}} Services Available</b-button>
+                                            <b-button type="button" variant="soft-primary" class="w-100 btn-sm viewcompany-list">{{data.services.length}} Services Available</b-button>
                                         </div>
                                     </b-card-body>
                                 </b-card>
@@ -157,7 +157,8 @@
                                     <th style="width: 10%;" class="text-center">Total</th>
                                     <th style="width: 15%;" class="text-center">Request Date</th>
                                     <th style="width: 15%;" class="text-center">Status</th>
-                                    <th style="width: 10%;"></th>
+                                    <th style="width: 10%;" class="text-center">Rate</th>
+                                    <th style="width: 5%;"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,9 +171,15 @@
                                     <td class="text-center">
                                         <span class="badge" :class="list.status.color">{{list.status.name}}</span>
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-center">
                                         <b-button v-if="!list.is_rated" variant="soft-info"  @click="openRate(list)" v-b-tooltip.hover title="View" size="sm" class="me-1" :disabled="list.status.name !== 'Completed'">
                                              Rate now
+                                        </b-button>
+                                        <span v-else>{{list.review.rating}}</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <b-button variant="soft-info"  @click="openView(list)" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1">
+                                            <i class="ri-eye-fill align-bottom"></i>
                                         </b-button>
                                     </td>
                                 </tr>
@@ -185,15 +192,17 @@
     </div>
     <Confirm ref="confirm"/>
     <Rate ref="rate"/>
+    <View ref="view"/>
 </template>
 <script>
+import View from '../Management/Modals/View.vue';
 import Rate from './Modals/Rate.vue';
 import Confirm from './Modals/Confirm.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
     props: ['categories','appointments'],
-    components: { Multiselect, Confirm, Rate },
+    components: { Multiselect, Confirm, Rate, View },
     data(){
         return {
             filter : {
@@ -233,8 +242,11 @@ export default {
         openConfirm(){
             this.$refs.confirm.show(this.cart,this.subtotal,this.discount);
         },
-        openRate(){
-            this.$refs.rate.show();
+        openRate(list){
+            this.$refs.rate.show(list.id);
+        },
+        openView(data){
+            this.$refs.view.view(data);
         },
         calculateTotalPrice() {
             this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);
