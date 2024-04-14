@@ -171,11 +171,8 @@
                                         <span class="badge" :class="list.status.color">{{list.status.name}}</span>
                                     </td>
                                     <td class="text-end">
-                                        <b-button variant="soft-info"  @click="openView(list)" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1">
-                                            <i class="ri-eye-fill align-bottom"></i>
-                                        </b-button>
-                                        <b-button @click="openEdit(list,index)" variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list">
-                                            <i class="ri-pencil-fill align-bottom"></i>
+                                        <b-button v-if="!list.is_rated" variant="soft-info"  @click="openRate(list)" v-b-tooltip.hover title="View" size="sm" class="me-1" :disabled="list.status.name !== 'Completed'">
+                                             Rate now
                                         </b-button>
                                     </td>
                                 </tr>
@@ -187,14 +184,16 @@
         </div>
     </div>
     <Confirm ref="confirm"/>
+    <Rate ref="rate"/>
 </template>
 <script>
+import Rate from './Modals/Rate.vue';
 import Confirm from './Modals/Confirm.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
     props: ['categories','appointments'],
-    components: { Multiselect, Confirm },
+    components: { Multiselect, Confirm, Rate },
     data(){
         return {
             filter : {
@@ -233,6 +232,9 @@ export default {
         },
         openConfirm(){
             this.$refs.confirm.show(this.cart,this.subtotal,this.discount);
+        },
+        openRate(){
+            this.$refs.rate.show();
         },
         calculateTotalPrice() {
             this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);

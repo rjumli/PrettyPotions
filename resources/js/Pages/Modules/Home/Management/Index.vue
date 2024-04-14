@@ -47,7 +47,7 @@
                 <BCol>
                     <BCard no-body>
                         <BLink class="card-header bg-warning-subtle" role="button">
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-13">Pending Appointments</h5>
+                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Pending Appointments</h5>
                             <p class="text-muted mb-0">{{counts[0].total}} appointments</p>
                         </BLink>
                     </BCard>
@@ -66,7 +66,7 @@
                 <BCol>
                     <BCard no-body>
                         <BLink class="card-header bg-info-subtle" role="button" v-b-toggle.leadDiscovered>
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-13">Incoming Appointments</h5>
+                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Incoming Appointments</h5>
                             <p class="text-muted mb-0">{{counts[1].total}} appointments</p>
                         </BLink>
                     </BCard>
@@ -85,7 +85,7 @@
                 <BCol>
                     <BCard no-body>
                         <BLink class="card-header bg-primary-subtle" role="button" v-b-toggle.leadDiscovered>
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-13">Ongoing Appointments</h5>
+                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Ongoing Appointments</h5>
                             <p class="text-muted mb-0">{{counts[1].total}} appointments</p>
                         </BLink>
                     </BCard>
@@ -104,7 +104,7 @@
                 <BCol>
                     <BCard no-body>
                         <BLink class="card-header bg-success-subtle" role="button" v-b-toggle.leadDiscovered>
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-13">Completed Appointments</h5>
+                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Completed Appointments</h5>
                             <p class="text-muted mb-0">{{counts[2].total}} appointments</p>
                         </BLink>
                     </BCard>

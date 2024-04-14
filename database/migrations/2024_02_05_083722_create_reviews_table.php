@@ -16,6 +16,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('rating');
             $table->longText('comment');
+            $table->integer('appointment_id')->unsigned()->index();
+            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             $table->bigInteger('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

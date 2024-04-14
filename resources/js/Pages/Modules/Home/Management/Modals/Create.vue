@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <b-row class="g-2">
-                            <b-col md="6">
+                            <b-col md="8">
                                 <div class="search-box">
                                 <input type="text" class="form-control search" placeholder="Search Service"
                                     v-model="filter.keyword" />
@@ -17,9 +17,6 @@
                                 :close-on-select="true" placeholder="Select Category"
                                 :searchable="true" :create-option="true" object="true"
                                 :options="categories.data" label="name" track-by="name"/>
-                            </b-col>
-                            <b-col md="2">
-                                <b-button variant="primary" class="w-100" @click="openCreate()">Create</b-button>
                             </b-col>
                         </b-row>
                     </div>

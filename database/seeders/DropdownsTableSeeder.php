@@ -217,6 +217,15 @@ class DropdownsTableSeeder extends Seeder
                 'color' => 'bg-info',
                 'others' => 'text-info',
             ),
+            22 => 
+            array (
+                'id' => 23,
+                'name' => 'Ongoing',
+                'classification' => 'Status',
+                'type' => 'n/a',
+                'color' => 'bg-primary',
+                'others' => 'text-primary',
+            ),
         ));
         
         
