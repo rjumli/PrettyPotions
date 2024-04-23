@@ -74,8 +74,8 @@ class UserProfilesTableSeeder extends Seeder
             4 => 
             array (
                 'id' => 5,
-                'firstname' => 'Ra-ouf',
-                'lastname' => 'Jumli',
+                'firstname' => 'Albert',
+                'lastname' => 'Padilla',
                 'middlename' => 'I',
                 'suffix' => NULL,
                 'gender' => 'M',
@@ -87,7 +87,7 @@ class UserProfilesTableSeeder extends Seeder
             5 => 
             array (
                 'id' => 6,
-                'firstname' => 'Xantipphy',
+                'firstname' => 'Pretty',
                 'lastname' => 'Ibrahim',
                 'middlename' => '',
                 'suffix' => NULL,

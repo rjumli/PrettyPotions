@@ -97,11 +97,11 @@ class UsersTableSeeder extends Seeder
             5 => 
             array (
                 'id' => 6,
-                'username' => 'xantipphy',
-                'email' => 'xantipphy@yahoo.com',
+                'username' => 'pretty',
+                'email' => 'pretty@yahoo.com',
                 'email_verified_at' => NULL,
                 'password' => '$2y$12$UEFg27WobeDgdm0I0eF9hep1daYi8X22l9FAhbWEHTRJcY3Ee2XrG',
-                'avatar' => 'xantipphy.jpeg',
+                'avatar' => 'pretty.jpeg',
                 'role' => 'Client',
                 'is_active' => 1,
                 'welcome_valid_until' => NULL,
