@@ -30,7 +30,7 @@
                            
                         </b-col>
                         <b-col md="1">
-                            <b-button variant="primary" class="w-100" @click="openCreate()">Create</b-button>
+                            <!-- <b-button variant="primary" class="w-100" @click="openCreate()">Create</b-button> -->
                         </b-col>
                     </b-row>
                     <div class="table-responsive">
@@ -61,6 +61,9 @@
                                     <td class="text-end">
                                         <b-button variant="soft-info"  @click="openView(list)" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1">
                                             <i class="ri-eye-fill align-bottom"></i>
+                                        </b-button>
+                                        <b-button v-if="list.status.name === 'Pending'" variant="soft-danger"  @click="openEdit(list,index)" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1">
+                                            <i class="ri-pencil-fill align-bottom"></i>
                                         </b-button>
                                     </td>
                                 </tr>

@@ -181,6 +181,9 @@
                                         <b-button variant="soft-info"  @click="openView(list)" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1">
                                             <i class="ri-eye-fill align-bottom"></i>
                                         </b-button>
+                                        <b-button v-if="list.status.name === 'Pending'" variant="soft-danger"  @click="openView(list)" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1">
+                                            <i class="ri-pencil-fill align-bottom"></i>
+                                        </b-button>
                                     </td>
                                 </tr>
                             </tbody>

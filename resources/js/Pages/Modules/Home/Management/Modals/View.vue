@@ -64,10 +64,12 @@
         <hr class="text-muted mb-n2"/>
 
         <template v-slot:footer>
-            <b-button @click="hide()" variant="light" block>Cancel</b-button>
+            <b-button v-if="selected.status.name === 'Pending'" @click="save(21)" variant="danger" block>Cancel Booking</b-button>
             <b-button v-if="selected.status.name === 'Pending' && client === false" @click="save(22)" variant="primary" :disabled="form.processing" block>Mark as Confirmed</b-button>
             <b-button v-if="selected.status.name === 'Confirmed' && client === false" @click="save(23)" variant="info" :disabled="form.processing" block>Mark as Ongoing</b-button>
             <b-button v-if="selected.status.name === 'Ongoing' && client === false" @click="save(20)" variant="success" :disabled="form.processing" block>Mark as Completed</b-button>
+            
+            <b-button @click="hide()" variant="light" block>Close</b-button>
         </template>
     </b-modal>
 </template>

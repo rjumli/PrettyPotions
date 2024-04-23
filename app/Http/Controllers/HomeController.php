@@ -4,20 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Dropdown;
+use App\Models\Service;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $role = \Auth::user()->role;
 
         switch($role){
             case 'Client':
                 return inertia('Modules/Home/Client/Index',[
                     'categories' => DropdownResource::collection(Dropdown::with('services')->where('classification','Category')->get()),
-                    'appointments' => Appointment::with('lists.service','lists.status','user.profile','status','review')->where('user_id',\Auth::user()->id)->whereIn('status_id',[19,20,22,23])->get()
+                    'appointments' => Appointment::with('lists.service','lists.status','user.profile','status','review')->where('user_id',\Auth::user()->id)->whereIn('status_id',[19,20,21,22,23])->get()
                 ]);
             break;
             case 'Staff':
@@ -35,9 +37,37 @@ class HomeController extends Controller
                 ]);
             break;
             default: 
-                return inertia('Modules/Home/Dashboard/Index');
+                return inertia('Modules/Home/Dashboard/Index',[
+                    'counts' => $this->count2($request),
+                ]);
         }
     }
+
+    public function count2($request){
+        return [
+            [
+                'name' => 'Active Services',
+                'icon' => 'ri-hand-coin-fill',
+                'color' => 'danger',
+                'total' => Service::where('is_active',1)->count(),
+            ],
+            [
+                'name' => 'Total Appointments',
+                'icon' => 'ri-article-line',
+                'color' => 'danger',
+                'total' => Appointment::where('status_id',20)->count(),
+            ],
+            [
+                'name' => 'Total Clients',
+                'icon' => 'ri-user-fill',
+                'color' => 'danger',
+                'total' => User::where('role','Client')->count(),
+            ]
+        ];
+    }
+
+   
+    
 
     public function counts(){
         return [

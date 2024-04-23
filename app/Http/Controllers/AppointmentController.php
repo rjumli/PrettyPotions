@@ -16,6 +16,9 @@ class AppointmentController extends Controller
             case 'lists':
                 return $this->lists($request);
             break;
+            case 'reports':
+                return $this->reports($request);
+            break;
             default: 
                 return inertia('Modules/Appointments/Index',[
                     'categories' => DropdownResource::collection(Dropdown::with('services')->where('classification','Category')->get()),
@@ -69,6 +72,34 @@ class AppointmentController extends Controller
             'info' => '-',
             'status' => true,
         ]);
+    }
+
+    public function reports($request){
+        $current_year = $request->year; $years = []; 
+        $laboratory = $request->laboratory;
+
+        $programs = [
+            ['name' => 'Completed Appointments', 'value' => 20],
+            ['name' => 'Cancelled Appointments', 'value' => 21],
+        ];
+        $prog = []; 
+        foreach($programs as $program){
+            $data = []; $year = $current_year - 20;
+            for($year; $year <= $current_year; $year++){
+                $years[] = $year; $p = $program['value'];
+                $data[] = Appointment::where('status_id',$p)->whereYear('created_at',$year)->count();
+            }
+            $arr[] = [
+                'name' => $program['name'],
+                'data' => $data  
+            ];
+            
+        }
+
+        return $y =[
+            'categories' => $years,
+            'lists' => $arr
+        ];
     }
     
 }

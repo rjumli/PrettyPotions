@@ -82,11 +82,11 @@ class UsersTableSeeder extends Seeder
             4 => 
             array (
                 'id' => 5,
-                'username' => 'krad',
-                'email' => 'krad@yahoo.com',
+                'username' => 'strong',
+                'email' => 'strong@yahoo.com',
                 'email_verified_at' => NULL,
                 'password' => '$2y$12$UVjRrdBjblDPfyeTdvOQhuM5ih3VmKw6AosiSOMgjrAstviKJDhua',
-                'avatar' => 'krad.jpeg',
+                'avatar' => 'strong.jpeg',
                 'role' => 'Client',
                 'is_active' => 1,
                 'welcome_valid_until' => NULL,
