@@ -36,7 +36,7 @@
                                     <b-col md="4">
                                         <div>
                                             <input type="search" id="job-title" class="form-control filter-input-box"
-                                                placeholder="Job, Company name...">
+                                                placeholder="services...">
                                         </div>
                                     </b-col>
                                     <b-col md="4">
