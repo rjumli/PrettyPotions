@@ -95,8 +95,8 @@ defineProps({
 });
 
 const form = useForm({
-    email: 'admin@prettypotions.com',
-    password: '123456789',
+    email: '',
+    password: '',
     remember: false
 });
 

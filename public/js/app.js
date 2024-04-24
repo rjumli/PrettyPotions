@@ -73,8 +73,8 @@ var __default__ = {
     var __expose = _ref.expose;
     __expose();
     var form = (0,_inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
-      email: 'admin@prettypotions.com',
-      password: '123456789',
+      email: '',
+      password: '',
       remember: false
     });
     var submit = function submit() {
