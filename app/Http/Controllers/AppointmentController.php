@@ -70,8 +70,8 @@ class AppointmentController extends Controller
             $list = $request->list;
            
             $name = $list['user']['profile']['firstname'].' '.$list['user']['profile']['lastname'];
-            // $mobile = $list['user']['profile']['mobile'];
-            $mobile = '09171531652';
+            $mobile = $list['user']['profile']['mobile'];
+            // $mobile = '09171531652';
             $date = $list['date'];
             $content = 'Appointment Reminder: Hello '.$name.' from Pretty Potions! Your appointment is scheduled on '.$date.'. Please be there. See you soon!';
             
