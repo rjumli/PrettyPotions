@@ -73,6 +73,7 @@
                     <BCard no-body class="mb-1" v-for="(item, index) of appointments.incoming" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
+                                <button type="button" @click="openNotify(item)" class="btn btn-info float-end">Notify</button>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
                                     <p class="fs-11 text-muted mb-0">Booking Date : {{item.date}}</p>
@@ -120,25 +121,6 @@
                         </BCardBody>
                     </BCard>
                 </BCol>
-                <!-- <BCol>
-                    <BCard no-body>
-                        <BLink class="card-header bg-dark-subtle" role="button" v-b-toggle.leadDiscovered>
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-13">Ratings and Reviews</h5>
-                            <p class="text-muted mb-0">0 appointments</p>
-                        </BLink>
-                    </BCard>
-                    <BCard no-body class="mb-1" v-for="(item, index) of appointments.rated" :key="index">
-                        <BCardBody>
-                            <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
-                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.date}}</p>
-                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.created_at}}</p>
-                                </div>
-                            </BLink>
-                        </BCardBody>
-                    </BCard>
-                </BCol> -->
             </BRow>
         </div>
     </div>
@@ -176,6 +158,19 @@ export default {
         formatMoney(value) {
             let val = (value/1).toFixed(2).replace(',', '.')
             return '₱'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        },
+        openNotify(data){
+            this.form = this.$inertia.form({
+                list: data,
+                option: 'notify'
+            });
+
+            this.form.put('/appointments/update',{
+                preserveScroll: true,
+                onSuccess: (response) => {
+                    this.hide();
+                },
+            });
         },
     }
 }

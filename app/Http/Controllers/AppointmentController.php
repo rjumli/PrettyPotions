@@ -8,6 +8,7 @@ use App\Models\Dropdown;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
+use GuzzleHttp\Client;
 
 class AppointmentController extends Controller
 {
@@ -24,6 +25,9 @@ class AppointmentController extends Controller
                     'categories' => DropdownResource::collection(Dropdown::with('services')->where('classification','Category')->get()),
                 ]);
         }
+    }
+    public function notify($request){
+        dd('wew');
     }
 
     public function lists($request){
@@ -62,16 +66,46 @@ class AppointmentController extends Controller
     }
 
     public function update(Request $request){
-        $data = Appointment::findOrFail($request->id);
-        $data->update($request->except('editable'));
-        $data = Appointment::with('lists.service','lists.status','user.profile','status')->where('id',$request->id)->first();
-        
-        return back()->with([
-            'data' => $data,
-            'message' => 'Appointment updated successfully.',
-            'info' => '-',
-            'status' => true,
-        ]);
+        if($request->option == 'notify'){
+            $list = $request->list;
+           
+            $name = $list['user']['profile']['firstname'].' '.$list['user']['profile']['lastname'];
+            // $mobile = $list['user']['profile']['mobile'];
+            $mobile = '09171531652';
+            $date = $list['date'];
+            $content = 'Appointment Reminder: Hello '.$name.' from Pretty Potions! Your appointment is scheduled on '.$date.'. Please be there. See you soon!';
+            
+            $client = new Client();
+            $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                'query' => [
+                    'apiusername' => 'APIJLHNMMIQBJ',
+                    'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                    'senderid' => 'TEST',
+                    'mobileno' => $mobile,
+                    'message' => $content,
+                    'languagetype' => 1
+                ]
+            ]);
+            $response = json_decode($result->getBody()->getContents());
+                dd($response);
+            return back()->with([
+                'data' => $response,
+                'message' => 'Message sent successfully.',
+                'info' => '-',
+                'status' => true,
+            ]);
+        }else{
+            $data = Appointment::findOrFail($request->id);
+            $data->update($request->except('editable'));
+            $data = Appointment::with('lists.service','lists.status','user.profile','status')->where('id',$request->id)->first();
+            
+            return back()->with([
+                'data' => $data,
+                'message' => 'Appointment updated successfully.',
+                'info' => '-',
+                'status' => true,
+            ]);
+        }
     }
 
     public function reports($request){
