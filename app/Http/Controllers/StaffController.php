@@ -7,6 +7,7 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
+use App\Http\Requests\StaffRequest;
 
 class StaffController extends Controller
 {
@@ -41,7 +42,9 @@ class StaffController extends Controller
         return $data;
     }
 
-    public function store(Request $request){
+    public function store(StaffRequest $request){
+
+        
         $password = '123456789';
         $data = User::create(array_merge($request->all(), ['password' => bcrypt($password),'is_active' => 1]));
         $data->profile()->create($request->all());
