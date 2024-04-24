@@ -63,7 +63,6 @@
                                 <input type="text" class="form-control" v-model="profile.mobile">
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label>Username: <span v-if="form.errors" v-text="form.errors.username" class="haveerror"></span></label>
@@ -86,6 +85,21 @@
                                 </div>
                             </div>
                         </div> 
+                        <div class="col-md-12">
+                            <hr class="text-muted"/>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group mt-1">
+                                <label>Password: <span v-if="form.errors" v-text="form.errors.password" class="haveerror"></span></label>
+                                <input type="text" class="form-control" v-model="user.password">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mt-1">
+                                <label>Confirm Password: <span v-if="form.errors" v-text="form.errors.password_confirmation" class="haveerror"></span></label>
+                                <input type="text" class="form-control" v-model="user.password_confirmation" style="text-transform: lowercase;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,7 +133,9 @@ export default {
                 id: '',
                 email: '',
                 avatar: '',
-                username: ''
+                username: '',
+                password: null,
+                password_confirmation: null
             },
             profile: {
                 id:'',
