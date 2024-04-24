@@ -97,31 +97,16 @@
                                 placeholder="Select Role"/>
                             </div>
                         </div>
-                        <div class="col-md-12" v-if="showProvince">
-                            <div class="form-group mb-4">
-                                <label>Province: <span v-if="form.errors" v-text="form.errors.province" class="haveerror"></span></label>
-                                    <multiselect 
-                                    v-model="user.province" 
-                                    :options="provinces"
-                                    :allow-empty="false"
-                                    :show-labels="false"
-                                    label="name" track-by="code"
-                                    placeholder="Select Province">
-                                </multiselect>
+                         <div class="col-md-6">
+                            <div class="form-group mt-1">
+                                <label>Password: <span v-if="form.errors" v-text="form.errors.password" class="haveerror"></span></label>
+                                <input type="password" class="form-control" v-model="user.password">
                             </div>
                         </div>
-                        <div class="col-md-12" v-if="showSchool">
-                            <div class="form-group mb-4">
-                                <label>School: <span v-if="form.errors" v-text="form.errors.school" class="haveerror"></span></label>
-                                <multiselect 
-                                v-model="user.school" 
-                                :options="schools"
-                                :allow-empty="false"
-                                :show-labels="false"
-                                @search-change="asyncSchool"
-                                label="name" track-by="id"
-                                placeholder="Select School">
-                            </multiselect>
+                        <div class="col-md-6">
+                            <div class="form-group mt-1">
+                                <label>Confirm Password: <span v-if="form.errors" v-text="form.errors.password_confirmation" class="haveerror"></span></label>
+                                <input type="password" class="form-control" v-model="user.password_confirmation">
                             </div>
                         </div>
                     </div>
@@ -148,7 +133,9 @@ export default {
                 email: '',
                 avatar: '',
                 role: null,
-                username: ''
+                username: '',
+                password: null,
+                password_confirmation: null
             },
             profile: {
                 id:'',
@@ -179,6 +166,8 @@ export default {
                 mobile: this.profile.mobile,
                 gender: this.profile.gender,
                 role: this.user.role,
+                password: this.user.password,
+                password_confirmation: this.user.password_confirmation,
                 img: (this.editable) ? '' : this.user.avatar,
                 editable: this.editable
             })
