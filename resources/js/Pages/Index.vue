@@ -42,18 +42,14 @@
                                     <b-col md="4">
                                         <div>
                                             <select class="form-control" data-choices>
-                                                <option value="">Select job type</option>
-                                                <option value="Full Time">Full Time</option>
-                                                <option value="Part Time">Part Time</option>
-                                                <option value="Freelance">Freelance</option>
-                                                <option value="Intership">Intership</option>
+                                                <option value="">Select service</option>
                                             </select>
                                         </div>
                                     </b-col>
                                     <b-col md="4">
                                         <div class="h-100">
                                             <b-button variant="primary" class="submit-btn w-100 h-100" type="submit"><i
-                                                    class="ri-search-2-line align-bottom me-1"></i> Find Job</b-button>
+                                                    class="ri-search-2-line align-bottom me-1"></i> Find Services</b-button>
                                         </div>
                                     </b-col>
                                 </b-row>
