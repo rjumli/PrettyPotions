@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-md-auto ms-auto">
                             <div class="d-flex hastck gap-2 flex-wrap">
-                                <button @click="openCustomer()" class="btn btn-danger"><i class="ri-add-fill align-bottom me-1"></i> New Customer</button>
+                                <!-- <button @click="openCustomer()" class="btn btn-danger"><i class="ri-add-fill align-bottom me-1"></i> New Customer</button> -->
                                 <button @click="openNew()" class="btn btn-success"><i class="ri-add-fill align-bottom me-1"></i> Walkin Appointment</button>
                             </div>
                         </div>
