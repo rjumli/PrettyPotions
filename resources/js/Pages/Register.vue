@@ -91,13 +91,13 @@
                          <div class="col-md-6">
                             <div class="form-group mt-1">
                                 <label>Password: <span v-if="form.errors" v-text="form.errors.password" class="haveerror"></span></label>
-                                <input type="text" class="form-control" v-model="user.password">
+                                <input type="password" class="form-control" v-model="user.password">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mt-1">
                                 <label>Confirm Password: <span v-if="form.errors" v-text="form.errors.password_confirmation" class="haveerror"></span></label>
-                                <input type="text" class="form-control" v-model="user.password_confirmation" style="text-transform: lowercase;">
+                                <input type="password" class="form-control" v-model="user.password_confirmation">
                             </div>
                         </div>
                     </div>
@@ -165,6 +165,8 @@ export default {
                 email: this.user.email,
                 mobile: this.profile.mobile,
                 gender: this.profile.gender,
+                password: this.user.password,
+                password_confirmation: this.user.password_confirmation,
                 role: 'Client',
                 img: (this.editable) ? '' : this.user.avatar,
                 editable: this.editable

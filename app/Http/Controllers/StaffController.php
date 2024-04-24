@@ -45,7 +45,7 @@ class StaffController extends Controller
     public function store(StaffRequest $request){
 
         
-        $password = '123456789';
+        $password = $request->password;
         $data = User::create(array_merge($request->all(), ['password' => bcrypt($password),'is_active' => 1]));
         $data->profile()->create($request->all());
         $imagePath = $this->updateAvatar($request,$data->id);
