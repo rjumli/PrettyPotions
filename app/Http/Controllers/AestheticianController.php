@@ -30,6 +30,11 @@ class AestheticianController extends Controller
     }
 
     public function store(Request $request){
+        $request->validate([
+            'user_id' => 'required',
+            'specialist_id' => 'required',
+            'categories' => 'required|array|min:1'
+        ]);
         $user_id = $request->user_id;
         $count = Aesthetician::where('user_id',$user_id)->count();
         if($count == 0){

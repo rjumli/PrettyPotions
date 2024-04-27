@@ -10,7 +10,7 @@
                     </multiselect> 
                 </div>
                 <div class="col-md-6" style="margin-top: -2px;">
-                    <label>Specialist: <span v-if="form.errors" v-text="form.errors.specialist" class="haveerror"></span></label>
+                    <label>Specialist: <span v-if="form.errors" v-text="form.errors.specialist_id" class="haveerror"></span></label>
                     <multiselect id="ajax" v-model="aesthetician.specialist" label="name"
                     placeholder="Select Specialist" open-direction="bottom" 
                     :options="specialists" :allow-empty="false" :show-labels="false">
