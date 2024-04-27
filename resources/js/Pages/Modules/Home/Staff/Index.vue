@@ -3,7 +3,7 @@
         <div class="col-xl-12">
             <div class="card crm-widget">
                 <div class="card-body p-0">
-                    <div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1 g-0">
+                    <div class="row row-cols-xxl-4 row-cols-md-4 row-cols-1 g-0">
                         <div class="col" v-for="(item, index) of counts" :key="index">
                             <div class="py-4 px-3">
                                 <h5 class="text-muted text-uppercase fs-13">{{item.name}} <i class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"></i></h5>
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-3">
@@ -41,23 +41,23 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <BRow class="row-cols-xxl-4">
+            <BRow class="row-cols-xxl-3">
                 <BCol>
                     <BCard no-body>
                         <BLink class="card-header bg-warning-subtle" role="button">
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Pending Appointments</h5>
-                            <p class="text-muted mb-0">{{counts[0].total}} appointments</p>
+                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Pending Services</h5>
+                            <p class="text-muted mb-0">{{appointments.pending.length}} services</p>
                         </BLink>
                     </BCard>
                     <BCard no-body class="mb-1" v-for="(item, index) of appointments.pending" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
-                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.date}}</p>
-                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.created_at}}</p>
+                                    <h6 class="fs-14 mb-1">{{item.service.service}} <span class="text-muted fs-11">({{item.appointment.code}})</span></h6>
+                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.appointment.date}}</p>
+                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.appointment.created_at}}</p>
                                 </div>
                             </BLink>
                         </BCardBody>
@@ -65,38 +65,18 @@
                 </BCol>
                 <BCol>
                     <BCard no-body>
-                        <BLink class="card-header bg-info-subtle" role="button" v-b-toggle.leadDiscovered>
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Incoming Appointments</h5>
-                            <p class="text-muted mb-0">{{counts[1].total}} appointments</p>
-                        </BLink>
-                    </BCard>
-                    <BCard no-body class="mb-1" v-for="(item, index) of appointments.incoming" :key="index">
-                        <BCardBody>
-                            <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
-                                <button type="button" @click="openNotify(item)" class="btn btn-info float-end">Notify</button>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
-                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.date}}</p>
-                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.created_at}}</p>
-                                </div>
-                            </BLink>
-                        </BCardBody>
-                    </BCard>
-                </BCol>
-                <BCol>
-                    <BCard no-body>
-                        <BLink class="card-header bg-primary-subtle" role="button" v-b-toggle.leadDiscovered>
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Ongoing Appointments</h5>
-                            <p class="text-muted mb-0">{{counts[1].total}} appointments</p>
+                        <BLink class="card-header bg-info-subtle" role="button">
+                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Ongoing Services</h5>
+                            <p class="text-muted mb-0">{{appointments.ongoing.length}} services</p>
                         </BLink>
                     </BCard>
                     <BCard no-body class="mb-1" v-for="(item, index) of appointments.ongoing" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
-                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.date}}</p>
-                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.created_at}}</p>
+                                    <h6 class="fs-14 mb-1">{{item.service.service}} <span class="text-muted fs-11">({{item.appointment.code}})</span></h6>
+                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.appointment.date}}</p>
+                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.appointment.created_at}}</p>
                                 </div>
                             </BLink>
                         </BCardBody>
@@ -105,17 +85,17 @@
                 <BCol>
                     <BCard no-body>
                         <BLink class="card-header bg-success-subtle" role="button" v-b-toggle.leadDiscovered>
-                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Completed Appointments</h5>
-                            <p class="text-muted mb-0">{{counts[2].total}} appointments</p>
+                            <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Completed Services</h5>
+                            <p class="text-muted mb-0">{{appointments.completed.length}} services</p>
                         </BLink>
                     </BCard>
                     <BCard no-body class="mb-1" v-for="(item, index) of appointments.completed" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
-                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.date}}</p>
-                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.created_at}}</p>
+                                    <h6 class="fs-12 mb-1">{{item.service.name}} <span class="text-muted fs-11">({{item.appointment.code}})</span></h6>
+                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.appointment.date}}</p>
+                                    <p class="fs-11 text-muted mb-n1">Created At : {{item.appointment.created_at}}</p>
                                 </div>
                             </BLink>
                         </BCardBody>
@@ -124,19 +104,15 @@
             </BRow>
         </div>
     </div>
-    <Create :categories="categories" ref="create"/>
     <View ref="view"/>
-    <Register ref="register"/>
 </template>
 <script>
-import Register from '../../../Register.vue';
-import Create from './Modals/Create.vue';
 import View from './Modals/View.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
     props: ['categories','counts','appointments'],
-    components: { Multiselect, View, Create, Register },
+    components: { Multiselect, View },
     data(){
         return {
             filter : {

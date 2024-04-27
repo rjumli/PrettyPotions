@@ -52,6 +52,12 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\UserProfile', 'user_id');
     }
 
+    public function aesthetician()
+    {
+        return $this->hasOne('App\Models\Aesthetician', 'user_id');
+    }
+
+
     public function scopeVerify(){
         $mail = UserNotification::dispatch($this->id)->delay(now()->addSeconds(10));
         return $mail;

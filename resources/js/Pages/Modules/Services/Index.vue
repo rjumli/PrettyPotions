@@ -61,13 +61,7 @@
                                         <span v-else class="badge bg-danger">Inactive</span>
                                     </td>
                                     <td class="text-end">
-                                        <b-button variant="soft-success" @click="update('status',list,index)" v-b-tooltip.hover title="Lock" size="sm" class="remove-list me-1">
-                                            <i class="ri-lock-2-fill align-bottom"></i>
-                                        </b-button>
-                                        <b-button variant="soft-warning"  @click="update('verification',list,index)" v-b-tooltip.hover title="Verify" size="sm" class="remove-list me-1">
-                                            <i class="ri-mail-send-fill align-bottom"></i>
-                                        </b-button>
-                                        <b-button @click="edit(list,index)" variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list">
+                                        <b-button @click="openEdit(list)" variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list">
                                             <i class="ri-pencil-fill align-bottom"></i>
                                         </b-button>
                                     </td>
@@ -138,6 +132,9 @@ export default {
         },
         openCreate(){
             this.$refs.create.show();
+        },
+        openEdit(data){
+            this.$refs.create.edit(data);
         },
         refresh(){
             this.fetch();

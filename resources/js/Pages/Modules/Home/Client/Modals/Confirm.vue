@@ -14,10 +14,22 @@
                         placeholder="Select Customer"/>
                         </div>
                 </div>
-                <div class="col-md-12 mt-2 mb-2">
+                <div class="col-md-6 mt-2 mb-2">
                    <div class="form-group">
                         <label>Date:</label>
-                        <input type="date" class="form-control" v-model="booking.date">
+                        <input type="date" :min="notBeforeToday" class="form-control" v-model="booking.date">
+                    </div>
+                </div>
+                <div class="col-md-6 mt-2 mb-2">
+                   <div class="form-group">
+                        <label>Time:</label>
+                        <!-- <input type="date" :min="notBeforeToday" class="form-control" v-model="booking.date">
+                         -->
+                          <select name="time" v-model="booking.time" class="form-control">
+                            <option value="0">Select Time</option>
+                            <option v-for="(time,index) in times" v-bind:value="time.value" v-bind:key="index" :selected="time.value == '4:00 PM'">{{time.text}}
+                            </option>
+                        </select> 
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -85,6 +97,7 @@ export default {
                 total: 0,
                 discount: 0,
                 date: null,
+                time: null,
                 user_id: null
             },
             form: {},
@@ -92,6 +105,19 @@ export default {
             is_walkin: false,
             showModal: false,
             editable: false,
+            notBeforeToday: new Date((new Date()).valueOf() + 1000*3600*24).toISOString().split('T')[0],
+            times:[
+                { text:'8:00 AM', value: '8:00 AM' },
+                { text:'9:00 AM', value: '9:00 AM' },
+                { text:'10:00 AM', value: '10:00 AM' },
+                { text:'11:00 AM', value: '11:00 AM' },
+                { text:'12:00 PM', value: '12:00 PM' },
+                { text:'1:00 PM', value: '1:00 PM' },
+                { text:'2:00 PM', value: '2:00 PM' },
+                { text:'3:00 PM', value: '3:00 PM' },
+                { text:'4:00 PM', value: '4:00 PM' },
+                { text:'5:00 PM', value: '5:00 PM' },
+            ]
         }
     },
     methods : {
@@ -118,7 +144,8 @@ export default {
                 user_id: this.booking.user_id,
                 total: this.booking.total,
                 discount: this.booking.discount,
-                date: this.booking.date
+                date: this.booking.date,
+                time: this.booking.time
             })
 
             this.form.post('/appointments',{
@@ -146,8 +173,17 @@ export default {
             .catch(err => console.log(err));
         },
         hide(){
+            this.booking.total = null;
+            this.booking.subtotal = null;
+            this.booking.discount = null;
+            this.booking.date = null;
+            this.booking.time = null;
+            this.booking.cart = null;
             this.showModal = false;
         },
+        //   notBeforeToday(date) {
+        //         return date <= new Date(new Date().setHours(0, 0, 0, 0));
+        //     },
     }
 }
 </script>

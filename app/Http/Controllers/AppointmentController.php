@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\AppointmentService;
+use App\Models\AestheticianService;
 use App\Models\Dropdown;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
@@ -19,6 +21,12 @@ class AppointmentController extends Controller
             break;
             case 'reports':
                 return $this->reports($request);
+            break;
+            case 'ids':
+                return $this->ids($request);
+            break;
+            case 'aestheticians':
+                return $this->aestheticians($request);
             break;
             default: 
                 return inertia('Modules/Appointments/Index',[
@@ -43,25 +51,83 @@ class AppointmentController extends Controller
     }
 
     public function store(Request $request){
-        $user_id = ($request->user_id) ? $request->user_id : \Auth::user()->id;
-        $count = Appointment::count();
-        $code = 'PP-'.date('Y').'-'.str_pad(($count+1), 5, '0', STR_PAD_LEFT);  
-        $data = Appointment::create(array_merge($request->all(), ['code' => $code, 'user_id' => $user_id,'status_id' => 19]));
-        $carts = $request->cart;
-        foreach($carts as $cart){
+        if($request->option == 'service'){
             $service = new AppointmentService;
-            $service->price = $cart['price'];
-            $service->service_id = $cart['id'];
+            $service->price = $request->service['price'];
+            $service->service_id =  $request->service['id'];
             $service->status_id = 19;
-            $service->appointment_id = $data->id;
-            $service->save();
+            $service->appointment_id = $request->appointment_id;
+            if($service->save()){
+                $data = Appointment::query()
+                ->with('user.profile','status','lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','review')
+                ->where('id',$request->appointment_id)
+                ->first();
+
+                $data->total = $data->total+$request->service['price'];
+                $data->save();
+                $message = 'Service added successfully';
+                $status = true;
+            }
+        }else if($request->option == 'remove'){
+            $del = AppointmentService::where('id',$request->service['id'])->delete();
+            if($del){
+                $data = Appointment::query()
+                ->with('user.profile','status','lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','review')
+                ->where('id',$request->appointment_id)
+                ->first();
+
+                $data->total = $data->total-$request->service['price'];
+                $data->save();
+
+                $message = 'Service remove successfully';
+                $status = false;
+            }
+        }else if($request->option == 'aesthetician'){
+            $app = AppointmentService::where('id',$request->id)->first();
+            $app->aesthetician_id = $request->aesthetician_id;
+            if($app->save()){
+                $data = Appointment::query()
+                ->with('user.profile','status','lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','review')
+                ->where('id',$request->appointment_id)
+                ->first();
+
+                $message = 'Aesthetician added successfully';
+                $status = true;
+            }
+        }else{
+            $date = $request->date;
+            $time = date('H:i:s', strtotime($request->time));
+            $date = $date.' '.$time;
+
+            $check = Appointment::where('date',$date)->count();
+            if($check > 0){
+                $message = 'Date and time is already booked.';
+                $data = [];
+                $status = false;
+            }else{
+                $user_id = ($request->user_id) ? $request->user_id : \Auth::user()->id;
+                $count = Appointment::count();
+                $code = 'PP-'.date('Y').'-'.str_pad(($count+1), 5, '0', STR_PAD_LEFT);  
+                $data = Appointment::create(array_merge($request->all(), ['code' => $code, 'user_id' => $user_id,'status_id' => 19, 'date' => $date]));
+                $carts = $request->cart;
+                foreach($carts as $cart){
+                    $service = new AppointmentService;
+                    $service->price = $cart['price'];
+                    $service->service_id = $cart['id'];
+                    $service->status_id = 19;
+                    $service->appointment_id = $data->id;
+                    $service->save();
+                    $message = 'Appointment added successfully';
+                    $status = true;
+                }
+            }
         }
 
         return back()->with([
             'data' => $data,
-            'message' => 'Appointment added successfully.',
+            'message' => $message,
             'info' => '-',
-            'status' => true,
+            'status' => $status,
         ]);
     }
 
@@ -87,17 +153,40 @@ class AppointmentController extends Controller
                 ]
             ]);
             $response = json_decode($result->getBody()->getContents());
-                dd($response);
+                // dd($response);
             return back()->with([
                 'data' => $response,
                 'message' => 'Message sent successfully.',
                 'info' => '-',
                 'status' => true,
             ]);
+        }else if($request->option == 'service'){
+            $data = AppointmentService::findOrFail($request->id);
+            $data->update($request->except('editable'));
+
+            return back()->with([
+                'data' => $data,
+                'message' => 'Service updated successfully.',
+                'info' => '-',
+                'status' => true,
+            ]);
+        }else if($request->option == 'completed'){
+            $data = AppointmentService::findOrFail($request->id);
+            $data->status_id = 20;
+            $data->save();
+
+            $data = Appointment::with('lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','user.profile','status')->where('id',$request->selected)->first();
+
+            return back()->with([
+                'data' => $data,
+                'message' => 'Service updated successfully.',
+                'info' => '-',
+                'status' => true,
+            ]);
         }else{
             $data = Appointment::findOrFail($request->id);
             $data->update($request->except('editable'));
-            $data = Appointment::with('lists.service','lists.status','user.profile','status')->where('id',$request->id)->first();
+            $data = Appointment::with('lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','user.profile','status')->where('id',$request->id)->first();
             
             return back()->with([
                 'data' => $data,
@@ -134,6 +223,35 @@ class AppointmentController extends Controller
             'categories' => $years,
             'lists' => $arr
         ];
+    }
+
+    public function ids($request){
+        $lists = $request->lists;
+        $ids = [];
+        foreach ($lists as $item) {
+            $ids[] = $item['id'];
+        }
+
+        $services = Service::whereNotIn('id',$ids)->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'value' => $item->id,
+                'name' => $item->service.' - '.$item->price,
+                'service' => $item->service,
+                'price' => $item->price
+            ];
+        });
+        return $services;
+    }
+
+    public function aestheticians($request){
+        $a = AestheticianService::with('aesthetician.user.profile')->where('category_id',$request->category_id)->get()->map(function ($item) {
+            return [
+                'value' => $item->aesthetician->id,
+                'name' => $item->aesthetician->user->profile->firstname.' '.$item->aesthetician->user->profile->lastname,
+            ];
+        });
+        return $a;
     }
     
 }

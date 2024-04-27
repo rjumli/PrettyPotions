@@ -7,6 +7,7 @@ use App\Models\Dropdown;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
+use App\Http\Resources\ServiceResource;
 
 class ServiceController extends Controller
 {
@@ -34,7 +35,7 @@ class ServiceController extends Controller
     }
 
     public function lists($request){
-        $data = DefaultResource::collection(
+        $data = ServiceResource::collection(
             Service::query()
             ->with('category')
             ->when($request->category, function ($query, $category) {
@@ -47,5 +48,17 @@ class ServiceController extends Controller
             ->paginate($request->counts)
         );
         return $data;
+    }
+
+    public function update(Request $request){
+        $data = Service::findOrFail($request->id);
+        $data->update($request->except('editable'));
+
+        return back()->with([
+            'data' => $data,
+            'message' => 'Service updated successfully.',
+            'info' => '-',
+            'status' => true,
+        ]);
     }
 }

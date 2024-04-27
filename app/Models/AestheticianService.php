@@ -15,7 +15,7 @@ class AestheticianService extends Model
 
     public function aesthetician()
     {
-        return $this->belongsTo('App\Models\User', 'aesthetician_id', 'id');
+        return $this->belongsTo('App\Models\Aesthetician', 'aesthetician_id', 'id');
     }
 
     public function category()

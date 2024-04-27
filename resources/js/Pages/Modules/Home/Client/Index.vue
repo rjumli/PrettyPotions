@@ -13,15 +13,13 @@
                                     <i class="ri-search-line search-icon"></i>
                                     </div>
                                 </b-col>
-                                <b-col md="3">
+                                <b-col md="4">
                                     <Multiselect class="form-control" v-model="filter.category" 
                                     :close-on-select="true" placeholder="Select Category"
                                     :searchable="true" :create-option="true" object="true"
                                     :options="categories.data" label="name" track-by="name"/>
                                 </b-col>
-                                <b-col md="1">
-                                    <b-button variant="primary" class="w-100" @click="openCreate()">Create</b-button>
-                                </b-col>
+
                             </b-row>
                         </div>
                     </div>
@@ -92,29 +90,34 @@
                                     <thead class="table-light">
                                         <tr class="fs-11">
                                             <th class="text-center" style="width: 3%;">#</th>
-                                            <th style="width: 30%;">Service</th>
-                                            <th style="width: 15%;" class="text-end">Price</th>
+                                            <th style="width: 70%;">Service</th>
+                                            <th style="width: 25%;" class="text-center">Price</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(list,index) in cart" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
                                             <td class="text-center">{{ index + 1 }}.</td>
-                                            <td class="fs-12">{{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> 
-                                                <!-- <h5 class="fs-13 mb-0 text-dark">{{list.service}}</h5>
-                        <p class="fs-12 text-muted mb-0">{{list.description}}</p> -->
+                                            <td class="fs-12">
+                                                {{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> 
                                             </td>
                                             <td class="text-end fs-12">{{formatMoney(list.price)}}</td>
+                                            <td class="text-end">
+                                                <b-button @click="removeCart(index)" variant="soft-danger" v-b-tooltip.hover title="Remove" size="sm" class="remove-list me-1">
+                                                    <i class="ri-delete-bin-fill align-bottom"></i>
+                                                </b-button>
+                                            </td>
                                         </tr>
                                         <tr class="table-light text-muted fs-12">
-                                            <td colspan="2">Subtotal : </td>
+                                            <td colspan="3">Subtotal : </td>
                                             <td class="text-end">{{formatMoney(subtotal)}}</td>
                                         </tr>
                                         <tr class="table-light text-muted fs-12">
-                                            <td colspan="2">Discount : </td>
+                                            <td colspan="3">Discount : </td>
                                             <td class="text-end">{{formatMoney(discount)}}</td>
                                         </tr>
                                         <tr class="table-light fw-semibold">
-                                            <td colspan="2">Total : </td>
+                                            <td colspan="3">Total : </td>
                                             <td class="text-end">{{formatMoney(subtotal)}}</td>
                                         </tr>
                                     </tbody>
@@ -122,7 +125,7 @@
                             </div>
                             
                             <div class="d-grid gap-2 mt-4" >
-                                <button @click="openConfirm()" class="btn btn-info" type="button">CONFIRM BOOKING</button>
+                                <button @click="openConfirm()" class="btn btn-info" type="button" :disabled="(cart.length == 0) ? true : false">CONFIRM BOOKING</button>
                             </div>
 
                         </div>
@@ -193,7 +196,7 @@
             </div>
         </div>
     </div>
-    <Confirm ref="confirm"/>
+    <Confirm @update="update" ref="confirm"/>
     <Rate ref="rate"/>
     <View ref="view"/>
 </template>
@@ -258,6 +261,12 @@ export default {
             let val = (value/1).toFixed(2).replace(',', '.')
             return '₱'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         },
+        removeCart(index){
+            this.cart.splice(this.cart.indexOf(index), 1);
+        },
+        update(){
+            this.cart = [];
+        }
     }
 }
 </script>

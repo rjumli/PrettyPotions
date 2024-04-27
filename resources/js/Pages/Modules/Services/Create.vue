@@ -1,5 +1,5 @@
 <template>
-    <b-modal v-model="showModal" title="Create Service"  style="--vz-modal-width: 600px;" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
+    <b-modal v-model="showModal" :title="(editable) ? 'Edit Service' : 'Create Service'"  style="--vz-modal-width: 600px;" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
         <b-form class="customform mb-2">
             <div class="row customerform">
                 <div class="col-md-9 mt-2">
@@ -59,24 +59,51 @@ export default {
         show() {
             this.showModal = true;
         },
+        edit(data){
+            this.editable = true;
+            this.service.id = data.id;
+            this.service.price = data.price;
+            this.service.service = data.service;
+            this.service.description = data.description;
+            this.service.category = data.category.value;
+            this.showModal = true;
+        },
         create(){
-            this.form = this.$inertia.form({
-                id: this.service.id,
-                service: this.service.service,
-                description: this.service.description,
-                price: this.service.price,
-                category_id: this.service.category
-            })
+            if(!this.editable){
+                this.form = this.$inertia.form({
+                    id: this.service.id,
+                    service: this.service.service,
+                    description: this.service.description,
+                    price: this.service.price,
+                    category_id: this.service.category
+                })
 
-            this.form.post('/services',{
-                preserveScroll: true,
-                onSuccess: (response) => {
-                    this.hide();
-                },
-            });
+                this.form.post('/services',{
+                    preserveScroll: true,
+                    onSuccess: (response) => {
+                        this.hide();
+                    },
+                });
+            }else{
+                 this.form = this.$inertia.form({
+                    id: this.service.id,
+                    service: this.service.service,
+                    description: this.service.description,
+                    price: this.service.price,
+                    category_id: this.service.category
+                })
+
+                this.form.put('/services/update',{
+                    preserveScroll: true,
+                    onSuccess: (response) => {
+                        this.hide();
+                    },
+                });
+            }
         },
         hide(){
             this.$parent.fetch();
+            this.editable = false;
             this.showModal = false;
         },
     }

@@ -108,7 +108,7 @@ class ClientController extends Controller
         ->get()->map(function ($item) {
             return [
                 'value' => $item->id,
-                'name' => $item->profile->firstname.' - '.$item->profile->lastname,
+                'name' => $item->profile->firstname.' '.$item->profile->lastname,
             ];
         });
         return $data;

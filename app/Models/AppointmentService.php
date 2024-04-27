@@ -11,7 +11,6 @@ class AppointmentService extends Model
 
     protected $fillable = ['price','aesthetician_id','service_id','appointment_id','status_id'];
 
-
     public function aesthetician()
     {
         return $this->belongsTo('App\Models\Aesthetician', 'aesthetician_id', 'id');
