@@ -4,7 +4,7 @@
             <div class="row customerform">
                 <div class="col-md-12 mt-2 mb-2" v-if="is_walkin">
                    <div class="form-group">
-                        <label>Customer:</label>
+                        <label>Customer: <span v-if="form.errors" v-text="form.errors.user_id" class="haveerror"></span></label>
                         <Multiselect 
                         :options="customers" 
                         v-model="booking.user_id"
@@ -16,13 +16,13 @@
                 </div>
                 <div class="col-md-6 mt-2 mb-2">
                    <div class="form-group">
-                        <label>Date:</label>
+                        <label>Date: <span v-if="form.errors" v-text="form.errors.date" class="haveerror"></span></label>
                         <input type="date" :min="notBeforeToday" class="form-control" v-model="booking.date">
                     </div>
                 </div>
                 <div class="col-md-6 mt-2 mb-2">
                    <div class="form-group">
-                        <label>Time:</label>
+                        <label>Time: <span v-if="form.errors" v-text="form.errors.time" class="haveerror"></span></label>
                         <!-- <input type="date" :min="notBeforeToday" class="form-control" v-model="booking.date">
                          -->
                           <select name="time" v-model="booking.time" class="form-control">
@@ -140,12 +140,12 @@ export default {
         create(){
             this.form = this.$inertia.form({
                 cart: this.booking.cart,
-                // subtotal: this.booking.subtotal,
                 user_id: this.booking.user_id,
                 total: this.booking.total,
                 discount: this.booking.discount,
                 date: this.booking.date,
-                time: this.booking.time
+                time: this.booking.time,
+                role: this.$page.props.role
             })
 
             this.form.post('/appointments',{

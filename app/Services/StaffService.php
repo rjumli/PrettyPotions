@@ -52,7 +52,7 @@ class StaffService
 
     public function verification($request){
         $data = User::findOrFail($request->id);
-        // $data->verify();
+        $data->verify();
         return new IndexResource($data);
     }
 

@@ -95,6 +95,11 @@ class AppointmentController extends Controller
                 $status = true;
             }
         }else{
+            $request->validate([
+                'time' => 'required',
+                'date' => 'required',
+                'user_id' => 'required_if:role,==,Receptionist'
+            ]);
             $date = $request->date;
             $time = date('H:i:s', strtotime($request->time));
             $date = $date.' '.$time;
