@@ -1,8 +1,8 @@
 <template>
     <div id="layout-wrapper">
         <Navigation :auth="auth"/>
-        <Menu v-if="$page.props.role != 'Client'"/>
-        <div :class="($page.props.role != 'Client') ? 'main-content' : ''" style="padding: 0">
+        <Menu v-if="$page.props.role != 'Client' && $page.props.role != 'Staff'"/>
+        <div :class="($page.props.role != 'Client' && $page.props.role != 'Staff') ? 'main-content' : ''" style="padding: 0">
             <div class="page-content">
                 <b-container fluid>
                     <slot/>

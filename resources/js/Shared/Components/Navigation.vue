@@ -1,10 +1,10 @@
 <template>
-    <header id="page-topbar" :style="($page.props.role != 'Client') ? 'left: 300px; right: 24px;' : 'left: 25px; right: 23px;'">
+    <header id="page-topbar" :style="($page.props.role != 'Client' && $page.props.role != 'Staff') ? 'left: 300px; right: 24px;' : 'left: 25px; right: 23px;'">
         <div class="layout-width">
             <div class="navbar-header">
 
                 <div class="d-flex">
-                    <button v-if="$page.props.role != 'Client'" type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                    <button v-if="$page.props.role != 'Client' && $page.props.role != 'Staff'" type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
                         <span class="hamburger-icon" >
                             <span></span>
                             <span></span>
