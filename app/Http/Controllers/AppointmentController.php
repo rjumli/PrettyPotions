@@ -10,6 +10,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
+use App\Http\Resources\CalendarResource;
 use GuzzleHttp\Client;
 
 class AppointmentController extends Controller
@@ -27,6 +28,9 @@ class AppointmentController extends Controller
             break;
             case 'aestheticians':
                 return $this->aestheticians($request);
+            break;
+            case 'calendar': 
+                return $this->calendar($request);
             break;
             default: 
                 return inertia('Modules/Appointments/Index',[
@@ -257,6 +261,17 @@ class AppointmentController extends Controller
             ];
         });
         return $a;
+    }
+
+    public function calendar($request){
+        $data = CalendarResource::collection(
+            Appointment::query()
+            ->with('user.profile','status','lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','review')
+            ->whereIn('status_id',[19,22,23])
+            ->get()
+        );
+
+        return $data;
     }
     
 }

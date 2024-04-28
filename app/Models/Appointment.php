@@ -33,7 +33,7 @@ class Appointment extends Model
 
     public function getDateAttribute($value)
     {
-        return date('M d, Y', strtotime($value));
+        return date('M d, Y g:i a', strtotime($value));
     }
 
     public function getUpdatedAtAttribute($value)

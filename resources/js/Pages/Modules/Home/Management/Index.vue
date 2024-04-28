@@ -28,10 +28,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <div class="search-box">
-                                <input type="text" class="form-control search" placeholder="Search for appointments">
-                                <i class="ri-search-line search-icon"></i>
-                            </div>
+                            <button @click="openCalendar()" class="btn btn-info">View Calendar</button>
                         </div>
                         <div class="col-md-auto ms-auto">
                             <div class="d-flex hastck gap-2 flex-wrap">
@@ -127,8 +124,10 @@
     <Create :categories="categories" ref="create"/>
     <View ref="view"/>
     <Register ref="register"/>
+    <Calendar ref="calendar"/>
 </template>
 <script>
+import Calendar from './Modals/Calendar.vue';
 import Register from '../../../Register.vue';
 import Create from './Modals/Create.vue';
 import View from './Modals/View.vue';
@@ -136,7 +135,7 @@ import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
     props: ['categories','counts','appointments'],
-    components: { Multiselect, View, Create, Register },
+    components: { Multiselect, View, Create, Register, Calendar },
     data(){
         return {
             filter : {
@@ -176,6 +175,9 @@ export default {
         },
         openCustomer(){
              this.$refs.register.show();
+        },
+        openCalendar(){
+            this.$refs.calendar.show();
         }
     }
 }
