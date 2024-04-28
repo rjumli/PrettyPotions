@@ -34,7 +34,17 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if(\Auth::user()->is_active){
-            return redirect()->intended(RouteServiceProvider::HOME);
+            if(\Auth::user()->role == 'Staff'){
+                if(\Auth::user()->aesthetician){
+                    return redirect()->intended(RouteServiceProvider::HOME);
+                }else{
+                    return back()->withErrors([
+                        'email' => 'Please add aesthetician service to the staff.',
+                    ])->onlyInput('email');
+                }
+            }else{
+                return redirect()->intended(RouteServiceProvider::HOME);
+            }
         }else{
             return back()->withErrors([
                 'email' => 'Account Locked, Please contact administrator.',
