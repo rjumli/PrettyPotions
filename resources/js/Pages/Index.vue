@@ -111,9 +111,9 @@
             </b-container>
         </section>
 
-        <section id="team" class="section">
+        <!-- <section id="team" class="section">
             <span class="text-center">list of services</span>
-        </section>
+        </section> -->
 
         <footer class="custom-footer bg-dark py-5 position-relative">
             <b-container>
