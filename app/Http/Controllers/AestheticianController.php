@@ -52,6 +52,8 @@ class AestheticianController extends Controller
                 }
                 $data->lists()->whereNotIn('category_id', $ids)->delete();
             }
+        }else{
+            $data = [];
         }
 
         // $services = Service::where('category_id',$category_id)->get();
