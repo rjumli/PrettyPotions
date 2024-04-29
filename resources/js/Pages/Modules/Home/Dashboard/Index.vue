@@ -94,7 +94,7 @@ export default {
                 },
                 yaxis: {
                     title: {
-                        text: 'Scholars Count'
+                        text: 'Appointments Count'
                     },
                 },
                 colors: ["#556ee6", "#ea6868", "#34c38f", "#f1b44c", "#a20cce", " #713d3d"],

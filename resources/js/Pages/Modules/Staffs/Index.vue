@@ -66,9 +66,9 @@
                                         <!-- <b-button variant="soft-success" @click="update('status',list,index)" v-b-tooltip.hover title="Lock" size="sm" class="remove-list me-1">
                                             <i class="ri-lock-2-fill align-bottom"></i>
                                         </b-button> -->
-                                        <b-button variant="soft-warning"  @click="update('verification',list,index)" v-b-tooltip.hover title="Verify" size="sm" class="remove-list me-1">
+                                        <!-- <b-button variant="soft-warning"  @click="update('verification',list,index)" v-b-tooltip.hover title="Verify" size="sm" class="remove-list me-1">
                                             <i class="ri-mail-send-fill align-bottom"></i>
-                                        </b-button>
+                                        </b-button> -->
                                         <b-button @click="openEdit(list,index)" variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list">
                                             <i class="ri-pencil-fill align-bottom"></i>
                                         </b-button>
