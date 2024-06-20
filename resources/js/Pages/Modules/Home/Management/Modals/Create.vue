@@ -88,8 +88,8 @@
                                         <tr v-for="(list,index) in cart" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
                                             <td class="text-center">{{ index + 1 }}.</td>
                                             <td class="fs-12">{{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> 
-                                                <!-- <h5 class="fs-13 mb-0 text-dark">{{list.service}}</h5>
-                        <p class="fs-12 text-muted mb-0">{{list.description}}</p> -->
+                                                <h5 class="fs-13 mb-0 text-dark">{{list.service}}</h5>
+                        <p class="fs-12 text-muted mb-0">{{list.description}}</p>
                                             </td>
                                             <td class="text-end fs-12">{{formatMoney(list.price)}}</td>
                                         </tr>
@@ -97,10 +97,10 @@
                                             <td colspan="2">Subtotal : </td>
                                             <td class="text-end">{{formatMoney(subtotal)}}</td>
                                         </tr>
-                                        <tr class="table-light text-muted fs-12">
+                                        <!-- <tr class="table-light text-muted fs-12">
                                             <td colspan="2">Discount : </td>
                                             <td class="text-end">{{formatMoney(discount)}}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr class="table-light fw-semibold">
                                             <td colspan="2">Total : </td>
                                             <td class="text-end">{{formatMoney(subtotal)}}</td>
@@ -167,7 +167,7 @@ export default {
             this.calculateTotalPrice();
         },
         openConfirm(){
-            this.$refs.confirm.new(this.cart,this.subtotal,this.discount);
+            this.$refs.confirm.new(this.cart,this.subtotal,this.discount,'walkin');
         },
         calculateTotalPrice() {
             this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);

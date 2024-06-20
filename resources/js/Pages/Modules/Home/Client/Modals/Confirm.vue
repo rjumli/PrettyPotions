@@ -14,13 +14,13 @@
                         placeholder="Select Customer"/>
                         </div>
                 </div>
-                <div class="col-md-6 mt-2 mb-2">
+                <div class="col-md-6 mt-2 mb-2" v-if="type == 'walkin'">
                    <div class="form-group">
                         <label>Date: <span v-if="form.errors" v-text="form.errors.date" class="haveerror"></span></label>
                         <input type="date" :min="notBeforeToday" class="form-control" v-model="booking.date">
                     </div>
                 </div>
-                <div class="col-md-6 mt-2 mb-2">
+                <div class="col-md-6 mt-2 mb-2" v-if="type == 'walkin'">
                    <div class="form-group">
                         <label>Time: <span v-if="form.errors" v-text="form.errors.time" class="haveerror"></span></label>
                         <!-- <input type="date" :min="notBeforeToday" class="form-control" v-model="booking.date">
@@ -63,10 +63,10 @@
                                 <td colspan="2">Subtotal : </td>
                                 <td class="text-end">{{formatMoney(booking.subtotal)}}</td>
                             </tr>
-                            <tr class="table-light text-muted fs-12">
+                            <!-- <tr class="table-light text-muted fs-12">
                                 <td colspan="2">Discount : </td>
                                 <td class="text-end">{{formatMoney(booking.discount)}}</td>
-                            </tr>
+                            </tr> -->
                             <tr class="table-success fw-semibold">
                                 <td colspan="2">Total : </td>
                                 <td class="text-end">{{formatMoney(booking.subtotal)}}</td>
@@ -105,6 +105,7 @@ export default {
             is_walkin: false,
             showModal: false,
             editable: false,
+            type: null,
             notBeforeToday: new Date((new Date()).valueOf() + 1000*3600*24).toISOString().split('T')[0],
             times:[
                 { text:'8:00 AM', value: '8:00 AM' },
@@ -121,7 +122,8 @@ export default {
         }
     },
     methods : {
-        show(cart, subtotal, discount) {
+        show(cart, subtotal, discount, type) {
+            this.type = type;
             this.booking.cart = cart;
             this.booking.total = subtotal;
             this.booking.subtotal = subtotal;
@@ -145,7 +147,8 @@ export default {
                 discount: this.booking.discount,
                 date: this.booking.date,
                 time: this.booking.time,
-                role: this.$page.props.role
+                role: this.$page.props.role,
+                type: this.type,
             })
 
             this.form.post('/appointments',{

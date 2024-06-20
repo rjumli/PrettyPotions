@@ -100,13 +100,17 @@ class AppointmentController extends Controller
             }
         }else{
             $request->validate([
-                'time' => 'required',
-                'date' => 'required',
+                'time' => 'required_if:role,==,book',
+                'date' => 'required_if:role,==,book',
                 'user_id' => 'required_if:role,==,Receptionist'
             ]);
-            $date = $request->date;
-            $time = date('H:i:s', strtotime($request->time));
-            $date = $date.' '.$time;
+            if($request->type == 'book'){
+                $date = $request->date;
+                $time = date('H:i:s', strtotime($request->time));
+                $date = $date.' '.$time;
+            }else{
+                $date = now();
+            }
 
             $check = Appointment::where('date',$date)->count();
             if($check > 0){

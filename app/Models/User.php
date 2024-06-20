@@ -59,8 +59,8 @@ class User extends Authenticatable
 
 
     public function scopeVerify(){
-        $mail = UserNotification::dispatch($this->id)->delay(now()->addSeconds(10));
-        return $mail;
+        // $mail = UserNotification::dispatch($this->id)->delay(now()->addSeconds(10));
+        // return $mail;
     }
 
     public function setEmailAttribute($value)

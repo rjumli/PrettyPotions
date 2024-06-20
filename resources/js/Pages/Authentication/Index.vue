@@ -27,7 +27,7 @@
 
                         <form class="customform" @submit.prevent="submit">
                             <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">Username</label>
                             <input type="text" class="form-control" id="email" placeholder="Enter email" v-model="form.email" />
                             <div class="invalid-feedback">
                                 <span></span>
@@ -62,11 +62,11 @@
                                     Sign In
                                 </b-button>
                             </div>
-                            <div class="mt-4 text-center">
+                            <!-- <div class="mt-4 text-center">
                                 <p class="mb-0">Forgot your password? 
                                     <Link href="/forgot-password" class="fw-semibold text-primary text-decoration-underline"> Click here</Link>
                                 </p>
-                            </div>
+                            </div> -->
 
                         </form>
                         </div>

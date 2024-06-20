@@ -246,7 +246,7 @@ export default {
             this.calculateTotalPrice();
         },
         openConfirm(){
-            this.$refs.confirm.show(this.cart,this.subtotal,this.discount);
+            this.$refs.confirm.show(this.cart,this.subtotal,this.discount,'book');
         },
         openRate(list){
             this.$refs.rate.show(list.id);
